@@ -261,26 +261,25 @@
       if (isCorrect) score++;
 
       render();
+    }
 
-      setTimeout(() => {
-        if (currentQuestionIndex + 1 < QUESTIONS_PER_ROUND) {
-          currentQuestionIndex++;
-          selectedAnswer = null;
-          saveProgress();
-          render();
-        } else {
-          gameState = 'end';
-          clearProgress();
-          // Update stats
-          const stats = loadStats();
-          stats.quizzesCompleted++;
-          stats.totalCorrect += score;
-          stats.totalAnswered += QUESTIONS_PER_ROUND;
-          if (score > stats.bestScore) stats.bestScore = score;
-          saveStats(stats);
-          render();
-        }
-      }, 1500);
+    function handleNext() {
+      if (currentQuestionIndex + 1 < QUESTIONS_PER_ROUND) {
+        currentQuestionIndex++;
+        selectedAnswer = null;
+        saveProgress();
+        render();
+      } else {
+        gameState = 'end';
+        clearProgress();
+        const stats = loadStats();
+        stats.quizzesCompleted++;
+        stats.totalCorrect += score;
+        stats.totalAnswered += QUESTIONS_PER_ROUND;
+        if (score > stats.bestScore) stats.bestScore = score;
+        saveStats(stats);
+        render();
+      }
     }
 
     // --- Rendering ---
@@ -440,6 +439,14 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
               ${optionsHtml}
             </div>
+
+            ${selectedAnswer ? `
+            <div class="mt-6 flex justify-end">
+              <button data-action="next" class="px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl transition-all flex items-center gap-2 shadow-lg shadow-blue-200">
+                ${currentQuestionIndex + 1 < QUESTIONS_PER_ROUND ? 'Next' : 'See Results'} <i data-lucide="arrow-right" class="w-5 h-5"></i>
+              </button>
+            </div>
+            ` : ''}
           </div>
         `;
       }
@@ -460,6 +467,8 @@
       } else if (action === 'resume') {
         const saved = loadProgress();
         if (saved) resumeQuiz(saved);
+      } else if (action === 'next') {
+        handleNext();
       } else if (action === 'answer') {
         const option = button.getAttribute('data-option');
         handleAnswer(option);
