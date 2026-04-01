@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Science Vocab Quiz</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="bg-slate-50 min-h-screen text-slate-800 font-sans">
+  <div id="app" class="min-h-screen flex items-center justify-center p-4"></div>
+
+  <script>
+    const vocabularyData = [
+      { "word": "Application", "definition": "how the experiment relates to the real world" },
+      { "word": "Analyze", "definition": "to evaluate in detail in order to support valid decision making" },
+      { "word": "Bar Graph", "definition": "data organized on a grid in the form of bars" },
+      { "word": "Chart", "definition": "a graphic representation of measurements taken of the dependent variable" },
+      { "word": "Conclusion", "definition": "the outcome of the experiment based on the data collected" },
+      { "word": "Control group", "definition": "the group in the investigation that that remains unchanged" },
+      { "word": "Controlled variable", "definition": "things that are held constant during an experiment" },
+      { "word": "Data", "definition": "set of collected and recorded measurements or observations" },
+      { "word": "Experiment", "definition": "an investigation carried out under controlled conditions" },
+      { "word": "Fact", "definition": "a truth about a subject matter that can be supported by evidence" },
+      { "word": "Field Studies", "definition": "method of investigation for studying plants and animals in their habitat" },
+      { "word": "Hypothesis", "definition": "a predicted outcome to an experiment based on the research collected" },
+      { "word": "Inference", "definition": "an explanation based on evidence that is not directly observed" },
+      { "word": "Investigation", "definition": "a scientific study of the natural world using the scientific method" },
+      { "word": "Interpretation", "definition": "an explanation of the data collected in an experiment or observation" },
+      { "word": "Journal", "definition": "a detailed record of data collections including the date and time" },
+      { "word": "Line Graph", "definition": "data organized on a grid in the form of lines" },
+      { "word": "Materials list", "definition": "a detailed list of the supplies and equipment used in an investigation" },
+      { "word": "Measurement", "definition": "the process of determining the size, length, or quantity of something" },
+      { "word": "Metric System", "definition": "National System of Measurement (i.e., meter, liter, gram, etc.)" },
+      { "word": "Models", "definition": "a representation of some object or event in the real world" },
+      { "word": "Observation", "definition": "information gathered through the senses about the natural world" },
+      { "word": "Opinion", "definition": "a personal belief or judgment that is not based on proof or certainty" },
+      { "word": "Outcome variable", "definition": "the factor that is being measured in the experiment" },
+      { "word": "Prediction", "definition": "guessing the outcome of an experiment before testing begins" },
+      { "word": "Procedure", "definition": "a detailed description listing all of the steps in an experiment" },
+      { "word": "Problem", "definition": "the question being investigated in an experiment" },
+      { "word": "Reference materials", "definition": "sources of information about the problem being investigated" },
+      { "word": "Reliable", "definition": "a term used to describe the certainty of data or results of an experiment" },
+      { "word": "Replicable", "definition": "the ability of a scientific investigation to be reproduced by another" },
+      { "word": "Research", "definition": "a search for general knowledge about a specific topic" },
+      { "word": "Results", "definition": "a statement that interprets the data" },
+      { "word": "Scientific Method", "definition": "routine used to guide a science investigation from beginning to end" },
+      { "word": "Simulation", "definition": "an imitation of the functioning of a system or process" },
+      { "word": "Survey", "definition": "questioning a large group of random people about their attitudes or beliefs" },
+      { "word": "Technology", "definition": "the use of scientific knowledge and processes to solve practical problems" },
+      { "word": "Testable", "definition": "a question that can be answered through experimenting" },
+      { "word": "Test variable", "definition": "the part of the experiment that is changed on purpose to test its effects" },
+      { "word": "Trials", "definition": "a repeat of an experiment with a new collection of data or observations" },
+      { "word": "Valid", "definition": "having adequate data or observations to support the conclusion" },
+      { "word": "Asteroid", "definition": "an object much smaller than a planet that orbits the Sun" },
+      { "word": "Axis", "definition": "an imaginary line around which a body rotates" },
+      { "word": "Cleavage", "definition": "a property used to describe the surfaces of minerals as they break apart" },
+      { "word": "Climate", "definition": "the pattern of weather that occurs in a certain location over many years" },
+      { "word": "Condensation", "definition": "the process by which water is changed from a gas to a liquid" },
+      { "word": "Comet", "definition": "object made of rock, ice, dust, and gas that revolves around the Sun" },
+      { "word": "Erosion", "definition": "the process of moving weathered rock from one place to another" },
+      { "word": "Evaporation", "definition": "the process by which water is changed from a liquid to a gas" },
+      { "word": "Fossil Fuels", "definition": "nonrenewable resources like coal, oil, and natural gas" },
+      { "word": "Galaxy", "definition": "a large system of stars, gas, and dust held together by gravity" },
+      { "word": "Gravity", "definition": "the force of attraction that pulls bodies towards the center of the Earth" },
+      { "word": "Hemisphere", "definition": "one half of Earth" },
+      { "word": "Humidity", "definition": "a measure of the amount of water vapor in the air" },
+      { "word": "Igneous rock", "definition": "rock formed from the cooling of magma or lava" },
+      { "word": "Inner Planets", "definition": "the small, rocky planets having a few moons" },
+      { "word": "Light Years", "definition": "a unit of measure used to describe the distance in space" },
+      { "word": "Luster", "definition": "a property describing a mineral's appearance when it reflects light" },
+      { "word": "Metamorphic rock", "definition": "rock formed from extreme heat and pressure" },
+      { "word": "Mineral", "definition": "a solid material with its own properties, formed in or on the Earth's crust" },
+      { "word": "Moon", "definition": "a natural object that orbits a planet" },
+      { "word": "Outer Planets", "definition": "the large, gaseous planets with multiple moon and ring systems" },
+      { "word": "Polar zone", "definition": "a climate zone with very little precipitation and extremely cold temperatures" },
+      { "word": "Precipitation", "definition": "a form of water that falls to the Earth as rain, snow, sleet, or hail" },
+      { "word": "Revolution", "definition": "the motion of one object around another object" },
+      { "word": "Rotation", "definition": "the spinning of an object on its axis" },
+      { "word": "Seasons", "definition": "a division of the year into four periods marked by changes in the weather" },
+      { "word": "Sedimentary rock", "definition": "a type of rock formed from layers of sediment" },
+      { "word": "Soil", "definition": "the top layer of Earth's surface made of weathered rock and organic matter" },
+      { "word": "Solar system", "definition": "the Sun, planets, and objects that orbit the Sun" },
+      { "word": "Star", "definition": "a mass of hot gases that produces its own light energy" },
+      { "word": "Streak", "definition": "the color of the powder of a mineral when it is rubbed on a streak plate" },
+      { "word": "Sun", "definition": "a medium-sized star at the center of our solar system" },
+      { "word": "Temperate zone", "definition": "a climate zone characterized by moderate temperatures" },
+      { "word": "Tropical zone", "definition": "a climate zone near the equator characterized by warm temperatures" },
+      { "word": "Water cycle", "definition": "phase change of water as it moves through the environment" },
+      { "word": "Water vapor", "definition": "the gas state of water" },
+      { "word": "Weather", "definition": "the condition of the atmosphere at a given time and place" },
+      { "word": "Weathering", "definition": "the breaking down of rocks and minerals by wind, rain, snow, etc." },
+      { "word": "Absorb", "definition": "to take in and store energy without reflecting it" },
+      { "word": "Attraction", "definition": "the magnetic force that pulls objects toward each other" },
+      { "word": "Balance", "definition": "the instrument used to measure mass" },
+      { "word": "Balanced forces", "definition": "forces that are equal in size yet, opposite in direction" },
+      { "word": "Chemical change", "definition": "a change that alters the composition of a substance altogether" },
+      { "word": "Conduct", "definition": "to transmit heat or electricity through a medium" },
+      { "word": "Compass", "definition": "an instrument used to measure direction" },
+      { "word": "Dissolve", "definition": "two or more substances that are mixed together to form a solution" },
+      { "word": "Filtration", "definition": "separating liquids from solids by passing the liquid through a filter" },
+      { "word": "Force", "definition": "a push or a pull that one object exerts on another object" },
+      { "word": "Friction", "definition": "a force involving direct contact that slows down motion" },
+      { "word": "Gas", "definition": "state of matter that does not have definite volume or definite shape" },
+      { "word": "Graduated cylinder", "definition": "an instrument used to measure volume" },
+      { "word": "Grams", "definition": "the unit of measure for mass" },
+      { "word": "Insulator", "definition": "a material used to reduce the transfer of electricity, heat, or sound" },
+      { "word": "Invertebrate", "definition": "an animal without a backbone" },
+      { "word": "Liquid", "definition": "state of matter that has definite volume, but no definite shape" },
+      { "word": "Magnetism", "definition": "force of attraction for iron and certain other metals" },
+      { "word": "Matter", "definition": "anything that takes up space and has mass" },
+      { "word": "Mass", "definition": "the amount of matter in an object" },
+      { "word": "Mechanical energy", "definition": "the energy of motion or position" },
+      { "word": "Metric system", "definition": "national system of measurement like meters, liters, and grams" },
+      { "word": "Milliliter", "definition": "the unit of measure for volume" },
+      { "word": "Mixture", "definition": "combining two or more substances" },
+      { "word": "Physical change", "definition": "a change that affects the size, color, or shape of a substance" },
+      { "word": "Pitch", "definition": "the relative frequency (high or low) of a sound as perceived by a listener" },
+      { "word": "Reflect", "definition": "to bounce light, sound, or heat off of a surface" },
+      { "word": "Repel", "definition": "to force away or apart from" },
+      { "word": "Sieving", "definition": "separating fine particles from larger ones by sifting them through small holes" },
+      { "word": "Solid", "definition": "state of matter that has definite shape and definite volume" },
+      { "word": "Solution", "definition": "a mixture in which one or more substances are dissolved in another" },
+      { "word": "Speed", "definition": "the distance traveled in a given amount of time" },
+      { "word": "State of Matter", "definition": "form of matter including a solid, liquid, or a gas" },
+      { "word": "Temperature", "definition": "the measure of heat energy in a substance" },
+      { "word": "Texture", "definition": "a physical property of a solid used to describe its surface" },
+      { "word": "Unbalanced forces", "definition": "forces that are unequal in size and may or may not be opposite in direction" },
+      { "word": "Volume", "definition": "the amount of space an object takes up" },
+      { "word": "Water displacement", "definition": "a measure of the volume of an irregularly shaped object" },
+      { "word": "Weight", "definition": "the measure of the force of gravity on an object" },
+      { "word": "Adaptation", "definition": "traits that help an organism survive" },
+      { "word": "Behavior", "definition": "a plant or animal reaction that occurs in response to stimuli" },
+      { "word": "Carnivore", "definition": "meat-eating animal" },
+      { "word": "Characteristic", "definition": "a quality or trait of an object or organism" },
+      { "word": "Classify", "definition": "to group by category based on similarities" },
+      { "word": "Community", "definition": "populations of different organisms living together in the same area" },
+      { "word": "Complete metamorphosis", "definition": "life cycle of insects that includes a larval stage" },
+      { "word": "Consumer", "definition": "an organism that feeds on other plants or animals for food" },
+      { "word": "Ecosystem", "definition": "living and nonliving things that interact in an environment" },
+      { "word": "Endangered species", "definition": "a population of organisms with the risk of becoming extinct" },
+      { "word": "Endoskeleton", "definition": "an internal support structure of an animal" },
+      { "word": "Environment", "definition": "conditions in which an organism lives" },
+      { "word": "Exoskeleton", "definition": "a hard outer structure, such as the shell of an insect or crustacean" },
+      { "word": "Extinct species", "definition": "a species that no longer exists" },
+      { "word": "Fertilization", "definition": "the process by which the female and male reproductive cells unite" },
+      { "word": "Food chain", "definition": "the transfer of energy from the Sun through producers and consumers" },
+      { "word": "Germination", "definition": "the process by which a plant goes from a seed or a spore" },
+      { "word": "Herbivore", "definition": "plant-eating animal" },
+      { "word": "Incomplete metamorphosis", "definition": "type of insect development that involves only three stages" },
+      { "word": "Inherited trait", "definition": "characteristics that are passed from parents to their offspring" },
+      { "word": "Larva", "definition": "the eating and growing stage in the life cycle of an organism" },
+      { "word": "Life cycle", "definition": "the stages of an organism's growth and development" },
+      { "word": "Nymph", "definition": "an insect undergoing incomplete metamorphosis" },
+      { "word": "Omnivore", "definition": "animals that eat both meat and plants" },
+      { "word": "Ovary", "definition": "the female reproductive organ that produces and contains egg cells" },
+      { "word": "Pistil", "definition": "the female reproductive structure of a flowering plant" },
+      { "word": "Population", "definition": "type of species living in a specific area" },
+      { "word": "Predator", "definition": "animals that hunt and consume other animals" },
+      { "word": "Prey", "definition": "organism that is hunted for food by another organism" },
+      { "word": "Producer", "definition": "an organism that makes its own food" },
+      { "word": "Pupa", "definition": "a stage in the life cycle of an insect that occurs between larva and adult" },
+      { "word": "Pollen", "definition": "the fine dust-like powder that contains the male reproductive cells" },
+      { "word": "Pollinate", "definition": "transfer of pollen from the male to the female reproductive structure" },
+      { "word": "Reproduction", "definition": "the process of making more organisms of the same kind" },
+      { "word": "Species", "definition": "a group of the same kind of organisms" },
+      { "word": "Spore", "definition": "a seed-like structure that produces a new plant like a fern or moss" },
+      { "word": "Stamen", "definition": "the male reproductive structure of a flowering plant" },
+      { "word": "Vertebrate", "definition": "animals that have a backbone" }
+    ];
+
+    const QUESTIONS_PER_ROUND = 10;
+    const STORAGE_KEY_PROGRESS = 'quizProgress';
+    const STORAGE_KEY_STATS = 'quizStats';
+
+    let gameState = 'start';
+    let questions = [];
+    let currentQuestionIndex = 0;
+    let score = 0;
+    let selectedAnswer = null;
+
+    const app = document.getElementById('app');
+
+    // --- localStorage helpers ---
+    function loadStats() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY_STATS);
+        if (raw) return JSON.parse(raw);
+      } catch (e) {}
+      return { quizzesCompleted: 0, totalCorrect: 0, totalAnswered: 0, bestScore: 0 };
+    }
+
+    function saveStats(stats) {
+      localStorage.setItem(STORAGE_KEY_STATS, JSON.stringify(stats));
+    }
+
+    function saveProgress() {
+      const data = { questions, currentQuestionIndex, score };
+      localStorage.setItem(STORAGE_KEY_PROGRESS, JSON.stringify(data));
+    }
+
+    function loadProgress() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY_PROGRESS);
+        if (raw) return JSON.parse(raw);
+      } catch (e) {}
+      return null;
+    }
+
+    function clearProgress() {
+      localStorage.removeItem(STORAGE_KEY_PROGRESS);
+    }
+
+    function clearAll() {
+      localStorage.removeItem(STORAGE_KEY_PROGRESS);
+      localStorage.removeItem(STORAGE_KEY_STATS);
+    }
+
+    // --- Game logic ---
+    function shuffleArray(array) {
+      return [...array].sort(() => Math.random() - 0.5);
+    }
+
+    function generateQuestions() {
+      const shuffledData = shuffleArray(vocabularyData);
+      const selectedVocab = shuffledData.slice(0, QUESTIONS_PER_ROUND);
+
+      questions = selectedVocab.map(item => {
+        const correctWord = item.word;
+        const distractors = shuffleArray(vocabularyData)
+          .filter(d => d.word !== correctWord)
+          .slice(0, 3)
+          .map(d => d.word);
+        const options = shuffleArray([correctWord, ...distractors]);
+        return { definition: item.definition, correctWord, options };
+      });
+
+      currentQuestionIndex = 0;
+      score = 0;
+      gameState = 'playing';
+      selectedAnswer = null;
+      saveProgress();
+      render();
+    }
+
+    function resumeQuiz(saved) {
+      questions = saved.questions;
+      currentQuestionIndex = saved.currentQuestionIndex;
+      score = saved.score;
+      gameState = 'playing';
+      selectedAnswer = null;
+      render();
+    }
+
+    function handleAnswer(option) {
+      if (selectedAnswer) return;
+
+      selectedAnswer = option;
+      const isCorrect = option === questions[currentQuestionIndex].correctWord;
+
+      if (isCorrect) score++;
+
+      render();
+
+      setTimeout(() => {
+        if (currentQuestionIndex + 1 < QUESTIONS_PER_ROUND) {
+          currentQuestionIndex++;
+          selectedAnswer = null;
+          saveProgress();
+          render();
+        } else {
+          gameState = 'end';
+          clearProgress();
+          // Update stats
+          const stats = loadStats();
+          stats.quizzesCompleted++;
+          stats.totalCorrect += score;
+          stats.totalAnswered += QUESTIONS_PER_ROUND;
+          if (score > stats.bestScore) stats.bestScore = score;
+          saveStats(stats);
+          render();
+        }
+      }, 1500);
+    }
+
+    // --- Rendering ---
+    function renderStatsPanel() {
+      const stats = loadStats();
+      if (stats.quizzesCompleted === 0) return '';
+
+      const avgPct = Math.round((stats.totalCorrect / stats.totalAnswered) * 100);
+
+      return `
+        <div class="bg-slate-50 rounded-xl border border-slate-200 p-4 text-left space-y-2 mt-6">
+          <h3 class="text-sm font-semibold text-slate-500 uppercase tracking-wider">Your Stats</h3>
+          <div class="grid grid-cols-2 gap-3 text-center">
+            <div class="bg-white rounded-lg p-3 border border-slate-100">
+              <div class="text-2xl font-bold text-blue-600">${stats.quizzesCompleted}</div>
+              <div class="text-xs text-slate-500">Quizzes Taken</div>
+            </div>
+            <div class="bg-white rounded-lg p-3 border border-slate-100">
+              <div class="text-2xl font-bold text-blue-600">${avgPct}%</div>
+              <div class="text-xs text-slate-500">Avg Score</div>
+            </div>
+            <div class="bg-white rounded-lg p-3 border border-slate-100">
+              <div class="text-2xl font-bold text-blue-600">${stats.bestScore}/${QUESTIONS_PER_ROUND}</div>
+              <div class="text-xs text-slate-500">Best Score</div>
+            </div>
+            <div class="bg-white rounded-lg p-3 border border-slate-100">
+              <div class="text-2xl font-bold text-blue-600">${stats.totalAnswered}</div>
+              <div class="text-xs text-slate-500">Questions Answered</div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function render() {
+      const saved = loadProgress();
+      const stats = loadStats();
+      const hasData = saved || stats.quizzesCompleted > 0;
+
+      if (gameState === 'start') {
+        const resumeBtn = saved ? `
+          <button data-action="resume" class="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-4 px-8 rounded-xl transition-all flex items-center justify-center gap-2 text-lg shadow-lg shadow-green-200">
+            <i data-lucide="play" class="w-5 h-5"></i> Resume Quiz (Q${saved.currentQuestionIndex + 1}, Score: ${saved.score})
+          </button>
+        ` : '';
+
+        const clearBtn = hasData ? `
+          <button data-action="clear" class="text-sm text-slate-400 hover:text-red-500 transition-colors mt-2">
+            Clear all progress &amp; stats
+          </button>
+        ` : '';
+
+        app.innerHTML = `
+          <div class="max-w-md w-full bg-white rounded-2xl shadow-xl p-8 text-center space-y-5">
+            <a href="index.html" class="inline-flex items-center gap-1 text-slate-400 hover:text-blue-600 transition-colors text-sm font-medium self-start">
+              <i data-lucide="arrow-left" class="w-4 h-4"></i> Back to Menu
+            </a>
+            <div class="w-20 h-20 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center mx-auto mb-2">
+              <i data-lucide="brain" class="w-10 h-10"></i>
+            </div>
+            <h1 class="text-3xl font-bold text-slate-800">Science Vocab Quiz</h1>
+            <p class="text-slate-600">
+              Test your knowledge with ${QUESTIONS_PER_ROUND} random definitions from your science vocabulary list.
+            </p>
+            ${resumeBtn}
+            <button data-action="start" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-4 px-8 rounded-xl transition-all flex items-center justify-center gap-2 text-lg shadow-lg shadow-blue-200">
+              ${saved ? 'New Quiz' : 'Start Quiz'} <i data-lucide="arrow-right" class="w-5 h-5"></i>
+            </button>
+            ${renderStatsPanel()}
+            ${clearBtn}
+          </div>
+        `;
+      } else if (gameState === 'end') {
+        let message = "Good effort! Keep studying to improve.";
+        if (score === QUESTIONS_PER_ROUND) message = "Perfect score! Outstanding!";
+        else if (score >= 7) message = "Great job! You know your stuff.";
+
+        app.innerHTML = `
+          <div class="max-w-md w-full bg-white rounded-2xl shadow-xl p-8 text-center space-y-6">
+            <div class="w-24 h-24 bg-yellow-100 text-yellow-500 rounded-full flex items-center justify-center mx-auto mb-4">
+              <i data-lucide="trophy" class="w-12 h-12"></i>
+            </div>
+            <h2 class="text-3xl font-bold text-slate-800">Quiz Complete!</h2>
+            <div class="text-6xl font-black text-blue-600 my-4">
+              ${score} <span class="text-2xl text-slate-400">/ ${QUESTIONS_PER_ROUND}</span>
+            </div>
+            <p class="text-slate-600">${message}</p>
+            ${renderStatsPanel()}
+            <button data-action="restart" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-4 px-8 rounded-xl transition-all flex items-center justify-center gap-2 text-lg mt-4 shadow-lg shadow-blue-200">
+              <i data-lucide="refresh-cw" class="w-5 h-5"></i> Play Again
+            </button>
+            <a href="index.html" class="inline-flex items-center gap-1 text-slate-400 hover:text-blue-600 transition-colors text-sm font-medium">
+              <i data-lucide="arrow-left" class="w-4 h-4"></i> Back to Menu
+            </a>
+          </div>
+        `;
+      } else if (gameState === 'playing') {
+        const currentQ = questions[currentQuestionIndex];
+        const progressWidth = ((currentQuestionIndex) / QUESTIONS_PER_ROUND) * 100;
+
+        const optionsHtml = currentQ.options.map(option => {
+          const isSelected = selectedAnswer === option;
+          const isCorrectOption = option === currentQ.correctWord;
+
+          let btnClass = "bg-white text-slate-700 hover:bg-blue-50 hover:border-blue-300 border-slate-200 cursor-pointer";
+          let iconHtml = "";
+
+          if (selectedAnswer) {
+            if (isCorrectOption) {
+              btnClass = "bg-green-100 border-green-500 text-green-800 scale-[1.02] shadow-md shadow-green-100 cursor-default";
+              iconHtml = `<i data-lucide="check-circle-2" class="w-6 h-6 text-green-600"></i>`;
+            } else if (isSelected) {
+              btnClass = "bg-red-100 border-red-500 text-red-800 cursor-default";
+              iconHtml = `<i data-lucide="x-circle" class="w-6 h-6 text-red-600"></i>`;
+            } else {
+              btnClass = "bg-slate-50 border-slate-200 text-slate-400 opacity-60 cursor-default";
+            }
+          }
+
+          const safeOption = option.replace(/"/g, '&quot;');
+
+          return `
+            <button data-action="answer" data-option="${safeOption}" ${selectedAnswer ? 'disabled' : ''}
+              class="p-5 rounded-2xl border-2 font-semibold text-lg transition-all duration-200 flex justify-between items-center text-left ${btnClass}">
+              <span>${option}</span>
+              ${iconHtml}
+            </button>
+          `;
+        }).join('');
+
+        app.innerHTML = `
+          <div class="max-w-2xl w-full">
+            <div class="mb-4">
+              <a href="index.html" class="inline-flex items-center gap-1 text-slate-400 hover:text-blue-600 transition-colors text-sm font-medium">
+                <i data-lucide="arrow-left" class="w-4 h-4"></i> Back to Menu
+              </a>
+            </div>
+            <div class="flex justify-between items-center mb-6">
+              <span class="text-sm font-semibold text-slate-500 uppercase tracking-wider">
+                Question ${currentQuestionIndex + 1} of ${QUESTIONS_PER_ROUND}
+              </span>
+              <span class="bg-blue-100 text-blue-800 text-sm font-bold px-3 py-1 rounded-full">
+                Score: ${score}
+              </span>
+            </div>
+
+            <div class="w-full bg-slate-200 rounded-full h-2 mb-8">
+              <div class="bg-blue-600 h-2 rounded-full transition-all duration-300" style="width: ${progressWidth}%"></div>
+            </div>
+
+            <div class="bg-white rounded-3xl shadow-lg p-8 mb-6 border border-slate-100">
+              <h2 class="text-2xl md:text-3xl font-medium text-slate-800 text-center leading-relaxed">
+                "${currentQ.definition}"
+              </h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              ${optionsHtml}
+            </div>
+          </div>
+        `;
+      }
+
+      lucide.createIcons();
+    }
+
+    // --- Event delegation ---
+    document.addEventListener('click', (e) => {
+      const button = e.target.closest('[data-action]');
+      if (!button) return;
+
+      const action = button.getAttribute('data-action');
+
+      if (action === 'start' || action === 'restart') {
+        clearProgress();
+        generateQuestions();
+      } else if (action === 'resume') {
+        const saved = loadProgress();
+        if (saved) resumeQuiz(saved);
+      } else if (action === 'answer') {
+        const option = button.getAttribute('data-option');
+        handleAnswer(option);
+      } else if (action === 'clear') {
+        clearAll();
+        render();
+      }
+    });
+
+    // Initial render
+    render();
+  </script>
+</body>
+</html>
