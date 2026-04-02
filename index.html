@@ -5,18 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Vocabulary Study</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    @keyframes wiggle { 0%,100%{transform:rotate(0)} 25%{transform:rotate(-12deg)} 75%{transform:rotate(12deg)} }
-    @keyframes spin { to{transform:rotate(360deg)} }
-    @keyframes bounce-up { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-30px)} }
-    @keyframes grow { 0%,100%{transform:scale(1)} 50%{transform:scale(1.8)} }
-    @keyframes flip { 0%{transform:perspective(400px) rotateY(0)} 100%{transform:perspective(400px) rotateY(360deg)} }
-    .anim-wiggle { animation: wiggle 0.4s ease-in-out 3; }
-    .anim-spin { animation: spin 0.6s ease-in-out; }
-    .anim-bounce { animation: bounce-up 0.4s ease-in-out 3; }
-    .anim-grow { animation: grow 0.5s ease-in-out 2; }
-    .anim-flip { animation: flip 0.8s ease-in-out; }
-  </style>
   <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body class="min-h-screen bg-slate-100 flex flex-col items-center justify-center p-4 font-sans">
@@ -32,13 +20,13 @@
 
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
         <button onclick="selectChild('Liam')" class="group bg-white rounded-2xl shadow-lg border border-slate-200 p-8 hover:shadow-xl hover:border-indigo-300 transition-all duration-200 text-center space-y-4 cursor-pointer">
-          <img src="images/liam.jpg" alt="Liam" class="w-24 h-24 rounded-full object-cover mx-auto border-4 border-indigo-100 group-hover:scale-110 transition-transform">
+          <div aria-hidden="true" class="w-24 h-24 rounded-full bg-indigo-100 text-indigo-700 mx-auto border-4 border-indigo-100 flex items-center justify-center text-4xl font-bold group-hover:scale-110 transition-transform">L</div>
           <h2 class="text-2xl font-bold text-slate-800">Liam</h2>
           <p class="text-slate-500">Science vocabulary</p>
         </button>
 
         <button onclick="selectChild('Dylan')" class="group bg-white rounded-2xl shadow-lg border border-slate-200 p-8 hover:shadow-xl hover:border-emerald-300 transition-all duration-200 text-center space-y-4 cursor-pointer">
-          <img src="images/dylan.jpg" alt="Dylan" class="w-24 h-24 rounded-full object-cover mx-auto border-4 border-emerald-100 group-hover:scale-110 transition-transform">
+          <div aria-hidden="true" class="w-24 h-24 rounded-full bg-emerald-100 text-emerald-700 mx-auto border-4 border-emerald-100 flex items-center justify-center text-4xl font-bold group-hover:scale-110 transition-transform">D</div>
           <h2 class="text-2xl font-bold text-slate-800">Dylan</h2>
           <p class="text-slate-500">Vocabulary words</p>
         </button>
@@ -51,8 +39,7 @@
         <button onclick="goBack()" class="inline-flex items-center gap-1 text-slate-500 hover:text-indigo-600 transition-colors text-sm font-medium">
           <i data-lucide="arrow-left" class="w-4 h-4"></i> Switch child
         </button>
-        <img id="child-avatar" onclick="easterEgg()" src="" alt="" class="w-32 h-32 sm:w-40 sm:h-40 rounded-2xl object-cover mx-auto border-4 border-slate-200 shadow-md cursor-pointer select-none">
-        <div id="egg-bubble" class="hidden text-lg font-bold transition-all duration-300"></div>
+        <div id="child-avatar" aria-label="" class="w-32 h-32 sm:w-40 sm:h-40 rounded-full bg-slate-200 text-slate-700 mx-auto border-4 border-slate-200 shadow-md flex items-center justify-center text-5xl sm:text-6xl font-bold select-none"></div>
         <h1 id="heading" class="text-2xl sm:text-3xl font-bold text-slate-800"></h1>
         <p class="text-slate-500 text-sm">Choose a study tool to get started</p>
       </div>
@@ -95,70 +82,11 @@
       document.body.style.paddingTop = '0.25rem';
       document.getElementById('heading').textContent = `${name}'s Vocabulary`;
       const avatar = document.getElementById('child-avatar');
-      avatar.src = `images/${name.toLowerCase()}.jpg`;
-      avatar.alt = name;
+      avatar.textContent = name.charAt(0).toUpperCase();
+      avatar.setAttribute('aria-label', `${name} avatar`);
       document.getElementById('link-flashcard').href = `VocabularyFlashcard.html?child=${name.toLowerCase()}`;
       document.getElementById('link-quiz').href = `VocabularyQuiz.html?child=${name.toLowerCase()}`;
       lucide.createIcons();
-    }
-
-    const eggMessages = {
-      liam: [
-        "Stop poking me! I'm trying to study! 📚",
-        "Hey! That tickles! 🤣",
-        "Do your flashcards already! 😤",
-        "I'm telling Dad! 👀",
-        "Bro, I have braces, not a button! 😬",
-        "One more click and I'm hiding your snacks 🍪",
-        "You're supposed to be studying, not clicking me! 🤓",
-        "I just lost my train of thought... thanks! 🚂💨",
-      ],
-      dylan: [
-        "Hey! I lost a tooth, not my patience! 🦷",
-        "Stop it! I'm trying to look cool! 😎",
-        "Click me one more time, I dare you! 👊",
-        "I'm telling Mom! 📞",
-        "You think this is funny? ...okay it is 😂",
-        "I'm the cute one, not a button! 🥹",
-        "Vocabulary won't learn itself! ...or will it? 🤔",
-        "That's it, I'm going on strike! ✊",
-      ]
-    };
-    const animations = ['anim-wiggle', 'anim-spin', 'anim-bounce', 'anim-grow', 'anim-flip'];
-    let eggClickCount = 0;
-
-    function easterEgg() {
-      const avatar = document.getElementById('child-avatar');
-      const bubble = document.getElementById('egg-bubble');
-      const child = (avatar.alt || 'liam').toLowerCase();
-      const msgs = eggMessages[child] || eggMessages.liam;
-
-      // Pick random animation and message
-      const anim = animations[Math.floor(Math.random() * animations.length)];
-      const msg = msgs[eggClickCount % msgs.length];
-      eggClickCount++;
-
-      // Remove old animation
-      avatar.classList.remove(...animations);
-      void avatar.offsetWidth; // force reflow
-      avatar.classList.add(anim);
-
-      // Show speech bubble
-      bubble.textContent = msg;
-      bubble.classList.remove('hidden');
-      bubble.style.opacity = '1';
-
-      // Hide after delay
-      clearTimeout(bubble._timer);
-      bubble._timer = setTimeout(() => {
-        bubble.style.opacity = '0';
-        setTimeout(() => bubble.classList.add('hidden'), 300);
-      }, 4000);
-
-      // Clean up animation
-      avatar.addEventListener('animationend', () => {
-        avatar.classList.remove(...animations);
-      }, { once: true });
     }
 
     function goBack() {
